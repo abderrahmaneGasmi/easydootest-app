@@ -12,20 +12,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { normalize, typography } from "@/constants/typography";
 import { colors } from "@/constants/Colors";
-import Productitem from "@/components/Productitem";
+import Productitem, { ProductSkeleton } from "@/components/Productitem";
 import { Product, category } from "@/constants/types";
 import { filterProducts, getProduct } from "@/api/products";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import SkeletonPulse from "@/components/pulse";
 
 const products = () => {
   const finalproducts = React.useRef([] as Product[]);
   const [productsrendered, setProductsrendered] = useState([] as Product[]);
   const [filter, setFilter] = useState("All" as "All" | category);
+  const [loading, setLoading] = useState(true);
   React.useEffect(() => {
     getProduct({ limit: 50 }).then((data) => {
       finalproducts.current = data;
       setProductsrendered(data);
+      setLoading(false);
     });
   }, []);
   const categories = [
@@ -36,12 +39,7 @@ const products = () => {
 
     "women's clothing",
   ];
-  const bottomSheetRef = useRef<BottomSheet>(null);
 
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    // console.log("handleSheetChanges", index);
-  }, []);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView>
@@ -111,10 +109,16 @@ const products = () => {
                     onTouchEnd={() => {
                       setFilter(item as "All" | category);
                       if (item === "All") {
+                        setLoading(true);
                         setProductsrendered(finalproducts.current);
+                        setTimeout(() => {
+                          setLoading(false);
+                        }, 500);
                       } else {
+                        setLoading(true);
                         filterProducts(item as category).then((data) => {
                           setProductsrendered(data);
+                          setLoading(false);
                         });
                       }
                     }}
@@ -141,13 +145,12 @@ const products = () => {
                 }
               />
             </View>
-            <View>
-              <ScrollView horizontal={false}>
+
+            {loading ? (
+              <SkeletonPulse>
                 <View
                   style={{
                     flexDirection: "row",
-                    // marginVertical: 20,
-                    // marginBottom: 70,
                     flexWrap: "wrap",
                     justifyContent: "space-between",
                     width: "100%",
@@ -155,34 +158,58 @@ const products = () => {
                     flex: 1,
                   }}
                 >
-                  {productsrendered.map((product, index) => {
+                  {[1, 2, 3, 4, 5, 6].map((product, index) => {
                     return (
-                      <Productitem
-                        key={index}
-                        title={product.title}
-                        price={product.price}
-                        category={product.category}
-                        image={product.image}
-                      />
+                      // <View
+                      //   style={{
+                      //     width: "48%",
+                      //     height: 200,
+                      //     backgroundColor: colors.gray,
+                      //   }}
+                      //   key={index}
+                      // />
+                      <ProductSkeleton key={index} />
                     );
                   })}
                 </View>
-              </ScrollView>
-            </View>
+              </SkeletonPulse>
+            ) : (
+              <View
+                style={{
+                  paddingBottom: normalize(100),
+                }}
+              >
+                <ScrollView horizontal={false}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      // marginVertical: 20,
+                      marginBottom: normalize(50),
+                      flexWrap: "wrap",
+                      justifyContent: "space-between",
+                      width: "100%",
+                      gap: 10,
+                      flex: 1,
+                    }}
+                  >
+                    {productsrendered.map((product, index) => {
+                      return (
+                        <Productitem
+                          key={index}
+                          title={product.title}
+                          price={product.price}
+                          category={product.category}
+                          image={product.image}
+                        />
+                      );
+                    })}
+                  </View>
+                </ScrollView>
+              </View>
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>
-      <BottomSheet
-        ref={bottomSheetRef}
-        onChange={handleSheetChanges}
-        snapPoints={[300]}
-        enablePanDownToClose={true}
-        index={-1}
-      >
-        <BottomSheetView style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
-        </BottomSheetView>
-      </BottomSheet>
     </GestureHandlerRootView>
   );
 };

@@ -3,6 +3,7 @@ import React from "react";
 import { normalize, typography } from "@/constants/typography";
 import { colors } from "@/constants/Colors";
 import { category } from "@/constants/types";
+import { Ionicons } from "@expo/vector-icons";
 
 const Productitem = ({
   category,
@@ -62,22 +63,106 @@ const Productitem = ({
         <Text
           style={{
             ...categoryclass(category),
-            paddingVertical: normalize(5),
-            paddingHorizontal: normalize(10),
+            paddingVertical: normalize(4),
+            paddingHorizontal: normalize(8),
             borderRadius: 10,
             textAlign: "center",
             alignSelf: "flex-start",
             marginTop: normalize(5),
+            fontSize: typography.small,
           }}
         >
           {category}
         </Text>
         <Text style={styles.price}>{price} DA</Text>
+        <View style={styles.btns}>
+          <View
+            style={{
+              flex: 0.88,
+              padding: normalize(5),
+              borderRadius: 5,
+              backgroundColor: colors.primary,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Ionicons
+              name="create-outline"
+              size={18}
+              color={colors.white}
+              style={{ marginRight: normalize(5) }}
+            />
+            <Text
+              style={{
+                color: colors.white,
+
+                fontSize: typography.small,
+                fontWeight: "bold",
+              }}
+            >
+              Modify
+            </Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: colors.red,
+              padding: normalize(5),
+              borderRadius: 10,
+              marginLeft: normalize(5),
+              flex: 0.12,
+            }}
+          >
+            <Ionicons name="trash-outline" size={18} color={colors.white} />
+          </View>
+        </View>
       </View>
     </View>
   );
 };
-
+export const ProductSkeleton = () => {
+  return (
+    <View style={{ ...styles.card, height: normalize(200) }}>
+      <View
+        style={{
+          height: normalize(120),
+          backgroundColor: colors.lightgray,
+          borderRadius: 20,
+          width: "100%",
+        }}
+      ></View>
+      <View style={{ ...styles.info, gap: 10 }}>
+        <View
+          style={{
+            backgroundColor: colors.lightgray,
+            width: "80%",
+            height: normalize(20),
+            borderRadius: 10,
+            alignSelf: "flex-start",
+          }}
+        />
+        <View
+          style={{
+            backgroundColor: colors.lightgray,
+            width: "20%",
+            height: normalize(10),
+            borderRadius: 10,
+            alignSelf: "flex-start",
+          }}
+        />
+        <View
+          style={{
+            backgroundColor: colors.lightgray,
+            width: "50%",
+            height: normalize(20),
+            borderRadius: 10,
+            alignSelf: "flex-start",
+          }}
+        />
+      </View>
+    </View>
+  );
+};
 export default Productitem;
 
 const styles = StyleSheet.create({
@@ -97,15 +182,23 @@ const styles = StyleSheet.create({
   },
   info: {
     padding: normalize(10),
+    flexGrow: 1,
   },
   title: {
     fontSize: typography.medium,
     fontWeight: "bold",
   },
   price: {
-    fontSize: typography.large,
+    fontSize: typography.medium,
     color: colors.black,
-    fontWeight: "bold",
     marginTop: normalize(5),
+    fontFamily: "Oxygen-Bold",
+    fontWeight: "bold",
+  },
+  btns: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginTop: normalize(10),
+    flexGrow: 1,
   },
 });
