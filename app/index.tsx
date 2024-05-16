@@ -52,8 +52,8 @@ const Home = () => {
               created with Expo and React Native to manage products
             </Text>
           </View>
-          <Link href="/products" style={style.btn}>
-            <Text>Login</Text>
+          <Link href="/sign-in" style={style.btn}>
+            <Text>Sign In</Text>
           </Link>
         </View>
       </ScrollView>
