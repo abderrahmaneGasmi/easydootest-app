@@ -49,7 +49,7 @@ const products = () => {
           <View>
             <View style={styles.header}>
               <View></View>
-              <View></View>
+              {/* <View></View> */}
 
               <View
                 style={{
@@ -69,13 +69,8 @@ const products = () => {
 
                 <Text style={styles.logotext}>EasydooTest</Text>
               </View>
+              {/* <View></View> */}
               <View></View>
-
-              <Ionicons
-                name="person-circle"
-                size={24}
-                color={colors.darkgray}
-              />
             </View>
             <View style={styles.search}>
               <Ionicons name="search" size={24} color={colors.mediumgray} />

@@ -53,10 +53,7 @@ const Productitem = ({
       style={styles.card}
       onTouchEnd={() => {
         router.push({
-          pathname: "/product",
-          params: {
-            id,
-          },
+          pathname: `/product/${id}`,
         });
       }}
     >
