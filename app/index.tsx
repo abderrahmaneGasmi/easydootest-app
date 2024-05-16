@@ -1,10 +1,18 @@
-import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { normalize, typography } from "@/constants/typography";
 import { colors } from "@/constants/Colors";
+import products from "./(home)/products";
 
 const Home = () => {
   return (
@@ -52,9 +60,15 @@ const Home = () => {
               created with Expo and React Native to manage products
             </Text>
           </View>
-          <Link href="/sign-in" style={style.btn}>
-            <Text>Sign In</Text>
-          </Link>
+          <TouchableOpacity
+            style={style.btn}
+            activeOpacity={0.8}
+            onPress={() => {
+              router.push("/sign-in");
+            }}
+          >
+            <Text style={style.btntext}>Sign In</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -99,14 +113,17 @@ const style = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 5,
     alignSelf: "stretch",
-    textAlign: "center",
-    color: colors.white,
-    fontSize: typography.medium,
+    alignItems: "center",
     padding: 10,
     marginBottom: normalize(70),
     marginHorizontal: normalize(20),
+  },
+  btntext: {
+    color: colors.white,
+    fontSize: typography.medium,
     fontFamily: "Oxygen-Bold",
+    textAlign: "center",
   },
 });
 
-export default Home;
+export default products;
