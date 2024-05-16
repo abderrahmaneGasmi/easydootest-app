@@ -4,17 +4,20 @@ import { normalize, typography } from "@/constants/typography";
 import { colors } from "@/constants/Colors";
 import { category } from "@/constants/types";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 const Productitem = ({
   category,
   title,
   price,
   image,
+  id,
 }: {
   category: category;
   title: string;
   price: number;
   image: string;
+  id: number;
 }) => {
   const categoryclass = (category: category) => {
     switch (category) {
@@ -46,7 +49,17 @@ const Productitem = ({
     }
   };
   return (
-    <View style={styles.card}>
+    <View
+      style={styles.card}
+      onTouchEnd={() => {
+        router.push({
+          pathname: "/product",
+          params: {
+            id,
+          },
+        });
+      }}
+    >
       <Image
         source={{ uri: image }}
         style={{
