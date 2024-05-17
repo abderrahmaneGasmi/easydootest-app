@@ -38,6 +38,7 @@ const add = () => {
     if (params.id) {
       getProductById(params.id as string).then((data) => {
         setProduct(data as Partial<Product>);
+        console.log(data);
         setShowedimage({ uri: (data as Product).image as string });
         setType("edit");
         navigation.setOptions({
@@ -181,7 +182,7 @@ const add = () => {
               },
               {
                 label: "Jewelery",
-                value: "Jewelery",
+                value: "jewelery",
               },
               {
                 label: "men's clothing",

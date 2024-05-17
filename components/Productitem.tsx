@@ -13,13 +13,15 @@ const Productitem = ({
   image,
   id,
   remove,
+  showbtns = true,
 }: {
   category: category;
   title: string;
   price: number;
   image: string;
   id: number;
-  remove: () => void;
+  remove?: () => void;
+  showbtns?: boolean;
 }) => {
   const categoryclass = (category: category) => {
     switch (category) {
@@ -96,56 +98,58 @@ const Productitem = ({
           </Text>
           <Text style={styles.price}>{price} DA</Text>
         </View>
-        <View style={styles.btns}>
-          <View
-            style={{
-              flex: 0.88,
-              padding: normalize(5),
-              borderRadius: 5,
-              backgroundColor: colors.primary,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onTouchEnd={() => {
-              router.push({
-                pathname: `/add`,
-                params: {
-                  id,
-                },
-              });
-            }}
-          >
-            <Ionicons
-              name="create-outline"
-              size={18}
-              color={colors.white}
-              style={{ marginRight: normalize(5) }}
-            />
-            <Text
+        {showbtns && (
+          <View style={styles.btns}>
+            <View
               style={{
-                color: colors.white,
-
-                fontSize: typography.small,
-                fontWeight: "bold",
+                flex: 0.88,
+                padding: normalize(5),
+                borderRadius: 5,
+                backgroundColor: colors.primary,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onTouchEnd={() => {
+                router.push({
+                  pathname: `/add`,
+                  params: {
+                    id,
+                  },
+                });
               }}
             >
-              Modify
-            </Text>
+              <Ionicons
+                name="create-outline"
+                size={18}
+                color={colors.white}
+                style={{ marginRight: normalize(5) }}
+              />
+              <Text
+                style={{
+                  color: colors.white,
+
+                  fontSize: typography.small,
+                  fontWeight: "bold",
+                }}
+              >
+                Modify
+              </Text>
+            </View>
+            <View
+              style={{
+                backgroundColor: colors.red,
+                padding: normalize(5),
+                borderRadius: 10,
+                marginLeft: normalize(5),
+                flex: 0.12,
+              }}
+              onTouchEnd={remove}
+            >
+              <Ionicons name="trash-outline" size={18} color={colors.white} />
+            </View>
           </View>
-          <View
-            style={{
-              backgroundColor: colors.red,
-              padding: normalize(5),
-              borderRadius: 10,
-              marginLeft: normalize(5),
-              flex: 0.12,
-            }}
-            onTouchEnd={remove}
-          >
-            <Ionicons name="trash-outline" size={18} color={colors.white} />
-          </View>
-        </View>
+        )}
       </View>
     </View>
   );

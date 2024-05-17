@@ -19,8 +19,7 @@ export async function loginApi(userData: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(userData),
-  })
-    .then((res) => res.body)
-    .then((body) => readStream(body as ReadableStream<Uint8Array>));
+  }).then((res) => res);
+  // .then((body) => readStream(body as ReadableStream<Uint8Array>));
   // .then((data) => data)
 }

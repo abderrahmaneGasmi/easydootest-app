@@ -1,8 +1,18 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
+import { useSession } from "@/context/Authcontext";
 
 const HomeLayout = () => {
+  const { session, isLoading } = useSession();
+  console.log(session);
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (!session) {
+    return <Redirect href="(auth)" />;
+  }
   return (
     <Stack>
       <Stack.Screen

@@ -16,8 +16,9 @@ import Productitem, { ProductSkeleton } from "@/components/Productitem";
 import { Product, category } from "@/constants/types";
 import { deleteproduct, filterProducts, getProduct } from "@/api/products";
 import SkeletonPulse from "@/components/pulse";
-import { router, useLocalSearchParams } from "expo-router";
+import { Redirect, router, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-root-toast";
+import { useSession } from "@/context/Authcontext";
 
 const products = () => {
   const finalproducts = React.useRef([] as Product[]);
@@ -83,7 +84,21 @@ const products = () => {
 
     "women's clothing",
   ];
+  const { session, isLoading } = useSession();
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
 
+  if (!session) {
+    Toast.show("You need to sign in to access this page", {
+      position: Toast.positions.BOTTOM,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
+    router.replace({ pathname: "/sign-in" });
+  }
   return (
     <SafeAreaView>
       <ScrollView

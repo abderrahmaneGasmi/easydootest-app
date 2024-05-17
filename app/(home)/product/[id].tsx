@@ -164,6 +164,7 @@ const product = () => {
                   category={product.category}
                   image={product.image}
                   id={product.id}
+                  showbtns={false}
                 />
               );
             })}

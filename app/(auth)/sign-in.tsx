@@ -6,13 +6,46 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { normalize, typography } from "@/constants/typography";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "@/constants/Colors";
+import Toast from "react-native-root-toast";
+import { useSession } from "@/context/Authcontext";
+import { router } from "expo-router";
 
 const SignIn = () => {
+  const [LoginInfo, setLoginInfo] = useState({
+    username: "",
+    password: "",
+  });
+  const { signIn, session } = useSession();
+  if (session) {
+    Toast.show("You need to sign in to access this page", {
+      position: Toast.positions.BOTTOM,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
+    router.replace({ pathname: "/products" });
+  }
+  const handleLogin = () => {
+    if (LoginInfo.username && LoginInfo.password) {
+      signIn(LoginInfo.username, LoginInfo.password);
+    } else {
+      Toast.show("Please fill all the fields", {
+        position: Toast.positions.BOTTOM,
+      });
+    }
+  };
+  const handlechange = (type: string, value: string) => {
+    setLoginInfo({
+      ...LoginInfo,
+      [type]: value,
+    });
+  };
   return (
     <SafeAreaView>
       <ScrollView
@@ -40,7 +73,12 @@ const SignIn = () => {
           </Text>
           <View style={style.inputGroup}>
             <Ionicons name="person" size={24} color={colors.darkgray} />
-            <TextInput style={style.input} placeholder="Username" />
+            <TextInput
+              style={style.input}
+              placeholder="Username"
+              onChangeText={(value) => handlechange("username", value)}
+              value={LoginInfo.username}
+            />
           </View>
           <View style={style.inputGroup}>
             <Ionicons name="lock-closed" size={24} color={colors.darkgray} />
@@ -48,9 +86,18 @@ const SignIn = () => {
               style={style.input}
               placeholder="Password"
               secureTextEntry={true}
+              onChangeText={(value) => handlechange("password", value)}
+              value={LoginInfo.password}
             />
           </View>
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "flex-end" }}
+            onTouchEnd={() => {
+              Toast.show("Function not implemented", {
+                position: Toast.positions.BOTTOM,
+              });
+            }}
+          >
             <Text style={{ color: colors.primaryopacity }}>
               Forgot Password?
             </Text>
@@ -62,6 +109,7 @@ const SignIn = () => {
               alignItems: "center",
               marginTop: normalize(20),
             }}
+            onTouchEnd={handleLogin}
           >
             <View
               style={{
