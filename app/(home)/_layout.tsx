@@ -11,14 +11,8 @@ const HomeLayout = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="product/[id]"
-        options={
-          {
-            // headerTitle: "Product Details",
-          }
-        }
-      />
+      <Stack.Screen name="product/[id]" />
+      <Stack.Screen name="add" />
     </Stack>
   );
 };

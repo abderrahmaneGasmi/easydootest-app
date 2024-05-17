@@ -13,6 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { normalize, typography } from "@/constants/typography";
 import { colors } from "@/constants/Colors";
 import products from "./(home)/products";
+import add from "./(home)/add";
 
 const Home = () => {
   return (
@@ -126,4 +127,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default products;
+export default add;
