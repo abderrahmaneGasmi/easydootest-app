@@ -14,9 +14,10 @@ import { normalize, typography } from "@/constants/typography";
 import { colors } from "@/constants/Colors";
 import Productitem, { ProductSkeleton } from "@/components/Productitem";
 import { Product, category } from "@/constants/types";
-import { filterProducts, getProduct } from "@/api/products";
+import { deleteproduct, filterProducts, getProduct } from "@/api/products";
 import SkeletonPulse from "@/components/pulse";
 import { router, useLocalSearchParams } from "expo-router";
+import Toast from "react-native-root-toast";
 
 const products = () => {
   const finalproducts = React.useRef([] as Product[]);
@@ -49,6 +50,31 @@ const products = () => {
       setLoading(false);
     });
   }, []);
+  const removeProduct = (id: number) => {
+    deleteproduct(id)
+      .then(() => {
+        finalproducts.current = finalproducts.current.filter(
+          (product) => product.id !== id
+        );
+        setProductsrendered(finalproducts.current);
+        Toast.show("Product deleted successfully", {
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        });
+      })
+      .catch((err) => {
+        Toast.show("An error occured", {
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        });
+      });
+  };
   const categories = [
     "All",
     "electronics",
@@ -212,6 +238,7 @@ const products = () => {
                         category={product.category}
                         image={product.image}
                         id={product.id}
+                        remove={() => removeProduct(product.id)}
                       />
                     );
                   })}

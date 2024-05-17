@@ -12,12 +12,14 @@ const Productitem = ({
   price,
   image,
   id,
+  remove,
 }: {
   category: category;
   title: string;
   price: number;
   image: string;
   id: number;
+  remove: () => void;
 }) => {
   const categoryclass = (category: category) => {
     switch (category) {
@@ -139,6 +141,7 @@ const Productitem = ({
               marginLeft: normalize(5),
               flex: 0.12,
             }}
+            onTouchEnd={remove}
           >
             <Ionicons name="trash-outline" size={18} color={colors.white} />
           </View>
