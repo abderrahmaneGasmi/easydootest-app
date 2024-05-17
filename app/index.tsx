@@ -127,4 +127,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default add;
+export default products;

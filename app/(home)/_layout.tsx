@@ -12,7 +12,12 @@ const HomeLayout = () => {
         }}
       />
       <Stack.Screen name="product/[id]" />
-      <Stack.Screen name="add" />
+      <Stack.Screen
+        name="add"
+        options={{
+          title: "Add Product",
+        }}
+      />
     </Stack>
   );
 };

@@ -1,19 +1,11 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  NavigationContainer,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StatusBar } from "expo-status-bar";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { SafeAreaView, Text, View } from "react-native";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -35,12 +27,14 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-       */}
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen name="(home)" options={{ headerShown: false }} />
-    </Stack>
+    <RootSiblingParent>
+      <Stack>
+        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+         */}
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(home)" options={{ headerShown: false }} />
+      </Stack>
+    </RootSiblingParent>
   );
 }

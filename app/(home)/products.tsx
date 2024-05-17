@@ -16,16 +16,36 @@ import Productitem, { ProductSkeleton } from "@/components/Productitem";
 import { Product, category } from "@/constants/types";
 import { filterProducts, getProduct } from "@/api/products";
 import SkeletonPulse from "@/components/pulse";
+import { router, useLocalSearchParams } from "expo-router";
 
 const products = () => {
   const finalproducts = React.useRef([] as Product[]);
   const [productsrendered, setProductsrendered] = useState([] as Product[]);
   const [filter, setFilter] = useState("All" as "All" | category);
   const [loading, setLoading] = useState(true);
+  const params = useLocalSearchParams();
+
   React.useEffect(() => {
     getProduct({ limit: 50 }).then((data) => {
-      finalproducts.current = data;
-      setProductsrendered(data);
+      if (params.producttitle) {
+        finalproducts.current = [
+          {
+            title: params.producttitle as string,
+            category: params.productcategory as category,
+            description: "",
+            id: 52,
+            image: params.productimage as string,
+            price: parseFloat((params.productprice as string) || "0"),
+            rating: {
+              count: 0,
+              rate: 0,
+            },
+          },
+          ...data,
+        ];
+      } else finalproducts.current = data;
+      setProductsrendered(finalproducts.current);
+
       setLoading(false);
     });
   }, []);
@@ -201,6 +221,19 @@ const products = () => {
           )}
         </View>
       </ScrollView>
+      <Ionicons
+        name="add-circle"
+        size={normalize(40)}
+        color={colors.primary}
+        style={{
+          position: "absolute",
+          bottom: 10,
+          right: 10,
+        }}
+        onPress={() => {
+          router.push({ pathname: "/add" });
+        }}
+      />
     </SafeAreaView>
   );
 };

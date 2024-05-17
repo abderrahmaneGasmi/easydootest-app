@@ -49,42 +49,51 @@ const Productitem = ({
     }
   };
   return (
-    <View
-      style={styles.card}
-      onTouchEnd={() => {
-        router.push({
-          pathname: `/product/${id}`,
-        });
-      }}
-    >
-      <Image
-        source={{ uri: image }}
-        style={{
-          height: normalize(120),
-          borderRadius: 20,
-          width: "100%",
-          resizeMode: "cover",
+    <View style={styles.card}>
+      <View
+        onTouchEnd={() => {
+          router.push({
+            pathname: `/product/${id}`,
+          });
         }}
-      />
-      <View style={styles.info}>
-        <Text style={styles.title}>
-          {title.slice(0, 60) + (title.length > 60 ? "..." : "")}
-        </Text>
-        <Text
+      >
+        <Image
+          source={{ uri: image }}
           style={{
-            ...categoryclass(category),
-            paddingVertical: normalize(4),
-            paddingHorizontal: normalize(8),
-            borderRadius: 10,
-            textAlign: "center",
-            alignSelf: "flex-start",
-            marginTop: normalize(5),
-            fontSize: typography.small,
+            height: normalize(120),
+            borderRadius: 20,
+            width: "100%",
+            resizeMode: "cover",
+          }}
+        />
+      </View>
+      <View style={styles.info}>
+        <View
+          onTouchEnd={() => {
+            router.push({
+              pathname: `/product/${id}`,
+            });
           }}
         >
-          {category}
-        </Text>
-        <Text style={styles.price}>{price} DA</Text>
+          <Text style={styles.title}>
+            {title.slice(0, 60) + (title.length > 60 ? "..." : "")}
+          </Text>
+          <Text
+            style={{
+              ...categoryclass(category),
+              paddingVertical: normalize(4),
+              paddingHorizontal: normalize(8),
+              borderRadius: 10,
+              textAlign: "center",
+              alignSelf: "flex-start",
+              marginTop: normalize(5),
+              fontSize: typography.small,
+            }}
+          >
+            {category}
+          </Text>
+          <Text style={styles.price}>{price} DA</Text>
+        </View>
         <View style={styles.btns}>
           <View
             style={{
@@ -95,6 +104,14 @@ const Productitem = ({
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
+            }}
+            onTouchEnd={() => {
+              router.push({
+                pathname: `/add`,
+                params: {
+                  id,
+                },
+              });
             }}
           >
             <Ionicons

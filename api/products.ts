@@ -46,9 +46,8 @@ export async function addproduct(product: Partial<Product>) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(product),
-  })
-    .then((res) => res.json())
-    .then((data) => console.log(data));
+  }).then((res) => res.json());
+  // .then((data) => console.log(data));
 }
 export async function editproduct(product: Partial<Product>) {
   return fetch(

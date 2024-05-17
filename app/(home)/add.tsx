@@ -8,14 +8,17 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import Spinner from "react-native-loading-spinner-overlay";
+import React, { useEffect, useState } from "react";
 import { normalize } from "@/constants/typography";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/Colors";
 import { Dropdown } from "@/components/DropDown";
 import { Product } from "@/constants/types";
 import * as ImagePicker from "expo-image-picker";
-import { addproduct } from "@/api/products";
+import { addproduct, editproduct, getProductById } from "@/api/products";
+import Toast from "react-native-root-toast";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 const add = () => {
   const [product, setProduct] = useState({
     title: "",
@@ -24,9 +27,27 @@ const add = () => {
     description: "",
     image: "@/assets/images/logo.png",
   } as Partial<Product>);
+  const navigation = useNavigation();
+
   const onchange = (key: string, value: string) => {
     setProduct({ ...product, [key]: value });
   };
+  const [type, setType] = useState("add" as "add" | "edit");
+  const params = useLocalSearchParams();
+  useEffect(() => {
+    if (params.id) {
+      getProductById(params.id as string).then((data) => {
+        setProduct(data as Partial<Product>);
+        setShowedimage({ uri: (data as Product).image as string });
+        setType("edit");
+        navigation.setOptions({
+          title: `Edit product N ${params.id}`,
+        });
+      });
+    }
+  }, []);
+
+  const [loading, setLoading] = useState(false);
   const [showedimage, setShowedimage] = useState(
     require("@/assets/images/logo.png")
   );
@@ -37,17 +58,69 @@ const add = () => {
     });
 
     if (!result.canceled) {
-      onchange("image", result.assets[0].uri);
       setShowedimage({ uri: result.assets[0].uri });
     } else {
       alert("You did not select any image.");
     }
   };
-  const addproductfunc = async () => {
-    const res = addproduct(product).then((data) => console.log(data));
+  const addproductfunc = () => {
+    setLoading(true);
+    if (type === "add") {
+      const res = addproduct(product)
+        .then((data) => {
+          setLoading(false);
+          Toast.show("Product added successfully", {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+          router.replace({
+            pathname: "products",
+            params: {
+              producttitle: product.title,
+              productcategory: product.category,
+              productprice: product.price,
+              productimage: product.image,
+            },
+          });
+        })
+        .catch((err) => {
+          setLoading(false);
+          Toast.show("Error adding product", {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        });
+    } else {
+      const res = editproduct(product)
+        .then((data) => {
+          setLoading(false);
+          Toast.show("Product modified successfully", {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+          router.replace({
+            pathname: "products",
+          });
+        })
+        .catch((err) => {
+          setLoading(false);
+          Toast.show("Error modifying product", {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        });
+    }
   };
+
   return (
     <ScrollView>
+      <Spinner
+        visible={loading}
+        textContent={"Loading..."}
+        textStyle={{
+          color: colors.white,
+        }}
+      />
       <View style={styles.container}>
         <Text
           style={{
@@ -57,7 +130,12 @@ const add = () => {
             marginVertical: normalize(10),
           }}
         >
-          Add new product
+          {
+            {
+              add: "Add new product",
+              edit: "Edit product N" + params.id,
+            }[type]
+          }
         </Text>
         <View style={styles.inputgroup}>
           <Text style={styles.label}>Product image</Text>
@@ -115,6 +193,7 @@ const add = () => {
               },
             ]}
             onValueChange={(value) => onchange("category", value)}
+            value={product.category}
             style={{
               viewContainer: {
                 backgroundColor: colors.lightgray,
@@ -130,6 +209,7 @@ const add = () => {
             placeholderTextColor={colors.gray}
             keyboardType="number-pad"
             onChangeText={(text) => onchange("price", text)}
+            value={product.price?.toString() || "0"}
           />
         </View>
         <View style={styles.inputgroup}>
@@ -141,6 +221,7 @@ const add = () => {
             multiline
             numberOfLines={4}
             onChangeText={(text) => onchange("description", text)}
+            value={product.description}
           />
         </View>
         <Pressable
@@ -156,7 +237,12 @@ const add = () => {
               fontSize: normalize(14),
             }}
           >
-            Add product
+            {
+              {
+                add: "Add product",
+                edit: "Edit product",
+              }[type]
+            }
           </Text>
         </Pressable>
       </View>
