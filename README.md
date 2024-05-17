@@ -1,6 +1,26 @@
-# Welcome to your Expo app 👋
+# EasydooTest -app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is the mobile version of the application [EasydooTest](https://github.com/abderrahmaneGasmi/easydootest) created with [react native](https://reactnative.dev) and [Expo](https://expo.dev) 
+
+
+<br>
+
+# ScreenShots
+
+
+
+<div style='display:flex;width:100%;justify-content:center;gap:10px'>
+  <img width="24%" height="450px" style="margin-left:120px;" src="https://github.com/abderrahmaneGasmi/easydootest-app/assets/119729705/3aebe7c5-7853-4355-955d-2f78407620a6"/>
+    <img width="24%" height="450px" style="margin-right:10px;" src="https://github.com/abderrahmaneGasmi/easydootest-app/assets/119729705/15ada5f6-aa67-4247-ae23-96694bf08482"/>
+    <img width="24%" height="450px" style="margin-right:10px;" src="https://github.com/abderrahmaneGasmi/easydootest-app/assets/119729705/de242c65-2bf7-4d39-8495-3d2615cd9c3c"/>
+    <img width="24%" height="450px" style="margin-right:10px;" src="https://github.com/abderrahmaneGasmi/easydootest-app/assets/119729705/53f70d0b-fa7c-40af-b448-9c3c340b4209"/>
+       <img width="24%" height="450px" style="margin-right:10px;" src="https://github.com/abderrahmaneGasmi/easydootest-app/assets/119729705/069886ac-39ea-4a93-bfa4-8887717a3ad7"/>
+    <img width="24%" height="450px" style="margin-right:10px;" src="https://github.com/abderrahmaneGasmi/easydootest-app/assets/119729705/c6e59ee3-2e84-42e4-8964-ea7b96bc7aa8"/>
+   
+</div>
+
+
+<br>
 
 ## Get started
 
@@ -15,36 +35,3 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```bash
     npx expo start
    ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
