@@ -14,6 +14,7 @@ import { colors } from "@/constants/Colors";
 import Toast from "react-native-root-toast";
 import { useSession } from "@/context/Authcontext";
 import { router } from "expo-router";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const SignIn = () => {
   const [LoginInfo, setLoginInfo] = useState({
@@ -21,8 +22,9 @@ const SignIn = () => {
     password: "",
   });
   const { signIn, session } = useSession();
+  const [loading, setLoading] = useState(false);
   if (session) {
-    Toast.show("You need to sign in to access this page", {
+    Toast.show("you are already sign in", {
       position: Toast.positions.BOTTOM,
       shadow: true,
       animation: true,
@@ -31,9 +33,16 @@ const SignIn = () => {
     });
     router.replace({ pathname: "/products" });
   }
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (LoginInfo.username && LoginInfo.password) {
-      signIn(LoginInfo.username, LoginInfo.password);
+      setLoading(true);
+
+      const res = await signIn(LoginInfo.username, LoginInfo.password);
+
+      setLoading(false);
+      if (res) {
+        return router.replace({ pathname: "/products" });
+      }
     } else {
       Toast.show("Please fill all the fields", {
         position: Toast.positions.BOTTOM,
@@ -48,6 +57,13 @@ const SignIn = () => {
   };
   return (
     <SafeAreaView>
+      <Spinner
+        visible={loading}
+        textContent={"Loading..."}
+        textStyle={{
+          color: colors.white,
+        }}
+      />
       <ScrollView
         contentContainerStyle={{
           height: "100%",

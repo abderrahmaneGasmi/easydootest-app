@@ -5,15 +5,15 @@ import { router } from "expo-router";
 import Toast from "react-native-root-toast";
 
 const AuthContext = React.createContext<{
-  signIn: (username: string, password: string) => void;
+  signIn: (username: string, password: string) => Promise<boolean>;
   signOut: () => void;
   session?: string | null;
   isLoading: boolean;
 }>({
-  signIn: (username: string, password: string) => null,
+  signIn: (username: string, password: string) => Promise.resolve(false),
   signOut: () => null,
   session: null,
-  isLoading: false,
+  isLoading: true,
 });
 
 // This hook can be used to access the user info.
@@ -35,24 +35,34 @@ export function SessionProvider(props: React.PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: (username: string, password: string) => {
-          loginApi({ username, password }).then((data) => {
+        signIn: async (username: string, password: string) => {
+          try {
+            const data = await loginApi({ username, password });
+
             if (data.status === 401) {
-              Toast.show("Invalid Credentials", {
+              Toast.show("Invalid username or password", {
                 position: Toast.positions.BOTTOM,
               });
-              return;
+
+              return false;
             }
 
-            Toast.show("Login Success", {
+            Toast.show("Login successful", {
               position: Toast.positions.BOTTOM,
             });
-            setSession("123");
-            router.push("/products");
-          });
+
+            setSession("123"); // Assuming setSession is defined somewhere
+            return true;
+          } catch (error) {
+            Toast.show("An error occurred", {
+              position: Toast.positions.BOTTOM,
+            });
+            return false;
+          }
         },
         signOut: () => {
           setSession(null);
+          router.replace("/sign-in");
         },
         session,
         isLoading,

@@ -71,7 +71,7 @@ export async function deleteproduct(id: number) {
     }
   )
     .then((res) => res.json())
-    .then((data) => console.log(data));
+    .then((data) => data.log(data));
 }
 export async function getProductById(id: string) {
   let endpoint = process.env.api || "https://fakestoreapi.com";
@@ -79,5 +79,5 @@ export async function getProductById(id: string) {
   return fetch(endpoint + "/products/" + id)
     .then((res) => res.json())
     .then((json) => json as Product)
-    .catch((err) => console.log(err));
+    .catch((err) => err.log(err));
 }

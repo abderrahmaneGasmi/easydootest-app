@@ -108,31 +108,6 @@ const products = () => {
       >
         <View style={styles.container}>
           <View>
-            <View style={styles.header}>
-              <View></View>
-              {/* <View></View> */}
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 10,
-                }}
-              >
-                <Image
-                  source={require("@/assets/images/logo.png")}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    resizeMode: "contain",
-                  }}
-                />
-
-                <Text style={styles.logotext}>EasydooTest</Text>
-              </View>
-              {/* <View></View> */}
-              <View></View>
-            </View>
             <View style={styles.search}>
               <Ionicons name="search" size={24} color={colors.mediumgray} />
               <TextInput
@@ -286,22 +261,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: "100%",
-    paddingVertical: normalize(10),
+    paddingBottom: normalize(10),
     paddingHorizontal: normalize(12),
     gap: 20,
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: normalize(20),
-    // padding: 20,
-  },
-  logotext: {
-    fontSize: typography.large,
-    color: colors.primary,
-    fontWeight: "bold",
-  },
+
   search: {
     flexDirection: "row",
     alignItems: "center",

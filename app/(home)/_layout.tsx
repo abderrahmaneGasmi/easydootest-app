@@ -2,10 +2,11 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Redirect, Stack } from "expo-router";
 import { useSession } from "@/context/Authcontext";
+import { Ionicons } from "@expo/vector-icons";
+import Header from "@/components/Header";
 
 const HomeLayout = () => {
   const { session, isLoading } = useSession();
-  console.log(session);
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
@@ -18,7 +19,8 @@ const HomeLayout = () => {
       <Stack.Screen
         name="products"
         options={{
-          headerShown: false,
+          headerShown: true,
+          header: ({ navigation }) => <Header />,
         }}
       />
       <Stack.Screen name="product/[id]" />

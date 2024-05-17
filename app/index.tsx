@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
@@ -14,8 +14,24 @@ import { normalize, typography } from "@/constants/typography";
 import { colors } from "@/constants/Colors";
 import products from "./(home)/products";
 import add from "./(home)/add";
+import { useSession } from "@/context/Authcontext";
+import Toast from "react-native-root-toast";
 
 const Home = () => {
+  const { session, isLoading } = useSession();
+  useEffect(() => {
+    if (session) {
+      Toast.show("you are already sign in", {
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+      });
+      return router.replace({ pathname: "/products" });
+    }
+  }, [session, isLoading]);
+  if (isLoading || session) return <Text>Loading...</Text>;
   return (
     <SafeAreaView>
       <ScrollView
@@ -127,4 +143,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default products;
+export default Home;

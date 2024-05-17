@@ -47,13 +47,17 @@ const product = () => {
   const [loading, setLoading] = useState(true);
   if (!id) return <Text>Product not found</Text>;
   React.useEffect(() => {
-    getProductById(id as string).then((data) => {
-      setProduct(data as Product);
-      filterProducts(data?.category as category).then((data) => {
-        setProducts(data);
+    getProductById(id as string)
+      .then((data) => {
+        setProduct(data as Product);
+        filterProducts(data?.category as category).then((data) => {
+          setProducts(data);
+          setLoading(false);
+        });
+      })
+      .catch(() => {
         setLoading(false);
       });
-    });
     navigation.setOptions({
       title: `Product N ${id}`,
     });
