@@ -30,13 +30,15 @@ const products = () => {
   React.useEffect(() => {
     getProduct({ limit: 50 }).then((data) => {
       if (params.producttitle) {
+        console.log(params);
         finalproducts.current = [
           {
             title: params.producttitle as string,
             category: params.productcategory as category,
             description: "",
-            id: 52,
-            image: params.productimage as string,
+            id: 1,
+            image:
+              "https://png2.cleanpng.com/sh/8e4ad36bb393aa828b54960211b7ff0f/L0KzQYm3U8MxN5VpiZH0aYP2gLBuTfJiepR0fNc2c3PkfrBskwMua5DpedRqcj3sfsXskv5ifJp0htN1LXH1hLrqjPUudqZyRdRqcnPydLa0VfFjbWM2Tdc8YXa8Rom1VsQyPmgASas6NUK1RIGCWMIzOmU2TpD5bne=/kisspng-barcode-scanners-codabar-international-article-num-barcode-5abe215e3af968.6416791915224098222416.png",
             price: parseFloat((params.productprice as string) || "0"),
             rating: {
               count: 0,

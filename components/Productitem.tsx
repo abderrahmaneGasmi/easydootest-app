@@ -121,7 +121,7 @@ const Productitem = ({
             >
               <Ionicons
                 name="create-outline"
-                size={18}
+                size={normalize(14)}
                 color={colors.white}
                 style={{ marginRight: normalize(5) }}
               />
@@ -146,7 +146,11 @@ const Productitem = ({
               }}
               onTouchEnd={remove}
             >
-              <Ionicons name="trash-outline" size={18} color={colors.white} />
+              <Ionicons
+                name="trash-outline"
+                size={normalize(14)}
+                color={colors.white}
+              />
             </View>
           </View>
         )}

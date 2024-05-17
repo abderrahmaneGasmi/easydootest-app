@@ -86,9 +86,9 @@ const product = () => {
             }}
           >
             <Ionicons name="star" size={20} color={colors.primary} />
-            <Text style={styles.rating}>{product.rating.rate}</Text>
+            <Text style={styles.rating}>{product?.rating?.rate || 0}</Text>
             <Text style={styles.ratingcount}>
-              {"(" + product.rating.count + ")"}
+              {"(" + (product?.rating?.count || 0) + ")"}
             </Text>
           </View>
         </View>
