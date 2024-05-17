@@ -14,28 +14,37 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/Colors";
 import { Dropdown } from "@/components/DropDown";
 import { Product } from "@/constants/types";
-// import * as ImagePicker from "expo-image-picker";
+import * as ImagePicker from "expo-image-picker";
+import { addproduct } from "@/api/products";
 const add = () => {
   const [product, setProduct] = useState({
     title: "",
     category: "jewelery",
     price: 0,
     description: "",
-    image: "",
+    image: "@/assets/images/logo.png",
   } as Partial<Product>);
   const onchange = (key: string, value: string) => {
     setProduct({ ...product, [key]: value });
   };
+  const [showedimage, setShowedimage] = useState(
+    require("@/assets/images/logo.png")
+  );
   const pickImageAsync = async () => {
-    // let result = await ImagePicker.launchImageLibraryAsync({
-    //   allowsEditing: true,
-    //   quality: 1,
-    // });
-    // if (!result.canceled) {
-    //   console.log(result);
-    // } else {
-    //   alert("You did not select any image.");
-    // }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      onchange("image", result.assets[0].uri);
+      setShowedimage({ uri: result.assets[0].uri });
+    } else {
+      alert("You did not select any image.");
+    }
+  };
+  const addproductfunc = async () => {
+    const res = addproduct(product).then((data) => console.log(data));
   };
   return (
     <ScrollView>
@@ -59,10 +68,7 @@ const add = () => {
           }}
           onTouchEnd={pickImageAsync}
         >
-          <Image
-            source={require("@/assets/images/logo.png")}
-            style={styles.image}
-          />
+          <Image source={showedimage} style={styles.image} />
           <Ionicons
             name="cloud-download-outline"
             size={normalize(20)}
@@ -83,6 +89,8 @@ const add = () => {
             style={styles.input}
             placeholder="Product name"
             placeholderTextColor={colors.gray}
+            onChangeText={(text) => onchange("title", text)}
+            value={product.title}
           />
         </View>
         <View style={styles.inputgroup}>
@@ -106,7 +114,7 @@ const add = () => {
                 value: "women's clothing",
               },
             ]}
-            onValueChange={(value) => console.log(value)}
+            onValueChange={(value) => onchange("category", value)}
             style={{
               viewContainer: {
                 backgroundColor: colors.lightgray,
@@ -121,6 +129,7 @@ const add = () => {
             placeholder="Product price"
             placeholderTextColor={colors.gray}
             keyboardType="number-pad"
+            onChangeText={(text) => onchange("price", text)}
           />
         </View>
         <View style={styles.inputgroup}>
@@ -131,9 +140,15 @@ const add = () => {
             placeholderTextColor={colors.gray}
             multiline
             numberOfLines={4}
+            onChangeText={(text) => onchange("description", text)}
           />
         </View>
-        <Pressable onPress={() => {}} style={styles.btn}>
+        <Pressable
+          onPress={() => {
+            addproductfunc();
+          }}
+          style={styles.btn}
+        >
           <Text
             style={{
               color: colors.white,
